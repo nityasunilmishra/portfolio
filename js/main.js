@@ -114,17 +114,30 @@ function initSocialStats() {
   if (leetcodeOrbCount || leetcodeSolvedCount) {
     fetchJson('https://leetcode.com/graphql/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
-        query: 'query userProblemsSolved($username: String!) { matchedUser(username: $username) { submitStats { acSubmissionNum { difficulty count } } } }',
-        variables: { username: 'nityasunilmishra' }
+        operationName: 'getUserProfile',
+        variables: { username: 'nityasunilmishra' },
+        query: `
+          query getUserProfile($username: String!) {
+            matchedUser(username: $username) {
+              submitStatsGlobal {
+                acSubmissionNum {
+                  difficulty
+                  count
+                }
+              }
+            }
+          }
+        `
       })
     })
       .then(response => {
-        const solvedCounts = response?.data?.matchedUser?.submitStats?.acSubmissionNum;
-        const solvedCount = Array.isArray(solvedCounts)
-          ? solvedCounts.find(item => item && (item.difficulty === 'All' || item.difficulty === 'all'))?.count
-          : undefined;
+        const stats = response?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum ?? [];
+        const solvedCount = stats.find(item => item?.difficulty === 'All')?.count;
 
         if (!Number.isInteger(solvedCount) || solvedCount < 0) {
           throw new Error('LeetCode response did not include a valid solved-problem count');
@@ -173,11 +186,11 @@ function initTypewriter() {
 
     if (!isDeleting && charIndex === currentPhrase.length) {
       isDeleting = true;
-      typingSpeed = 2200; 
+      typingSpeed = 2200;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       phraseIndex = (phraseIndex + 1) % phrases.length;
-      typingSpeed = 400; 
+      typingSpeed = 400;
     }
 
     setTimeout(type, typingSpeed);
@@ -248,10 +261,11 @@ function initNavigation() {
     menuToggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      menuToggle.setAttribute('aria-expanded', String(!isExpanded));
       menuToggle.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
+
     document.addEventListener('click', (e) => {
       if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
         menuToggle.setAttribute('aria-expanded', 'false');
