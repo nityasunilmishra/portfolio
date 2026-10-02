@@ -1,6 +1,5 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
+  injectResponsiveFixes();
   initTypewriter();
   initLiveClock();
   initSocialStats();
@@ -10,10 +9,77 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
 });
 
+function injectResponsiveFixes() {
+  if (document.getElementById('portfolio-layout-fixes')) return;
+
+  const style = document.createElement('style');
+  style.id = 'portfolio-layout-fixes';
+  style.textContent = `
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 3.5rem;
+    }
+
+    .stat-orb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        order: -1;
+        margin-bottom: 1rem;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-orb {
+        width: 64px;
+        height: 64px;
+      }
+
+      .orb-num {
+        font-size: 0.95rem;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
 function initSocialStats() {
   const githubCount = document.getElementById('github-repo-count');
   const leetcodeOrbCount = document.getElementById('leetcode-orb-count');
   const leetcodeSolvedCount = document.getElementById('leetcode-solved-count');
+
+  const setCount = (element, value) => {
+    if (!element) return;
+    const safeValue = Number.isFinite(value) && value >= 0 ? String(value) : '0';
+    element.textContent = safeValue;
+  };
 
   async function fetchJson(url, options = {}) {
     const controller = new AbortController();
@@ -33,12 +99,16 @@ function initSocialStats() {
   if (githubCount) {
     fetchJson('https://api.github.com/users/nityasunilmishra')
       .then(profile => {
-        if (!Number.isInteger(profile.public_repos) || profile.public_repos < 0) {
+        const count = Number(profile?.public_repos);
+        if (!Number.isInteger(count) || count < 0) {
           throw new Error('GitHub response did not include a valid public repository count');
         }
-        githubCount.textContent = String(profile.public_repos);
+        setCount(githubCount, count);
       })
-      .catch(error => console.warn('Unable to load GitHub public repository count:', error));
+      .catch(error => {
+        console.warn('Unable to load GitHub public repository count:', error);
+        setCount(githubCount, 0);
+      });
   }
 
   if (leetcodeOrbCount || leetcodeSolvedCount) {
@@ -51,19 +121,23 @@ function initSocialStats() {
       })
     })
       .then(response => {
-        const solvedCounts = response.data?.matchedUser?.submitStats?.acSubmissionNum;
+        const solvedCounts = response?.data?.matchedUser?.submitStats?.acSubmissionNum;
         const solvedCount = Array.isArray(solvedCounts)
-          ? solvedCounts.find(item => item.difficulty === 'All')?.count
+          ? solvedCounts.find(item => item && (item.difficulty === 'All' || item.difficulty === 'all'))?.count
           : undefined;
 
         if (!Number.isInteger(solvedCount) || solvedCount < 0) {
           throw new Error('LeetCode response did not include a valid solved-problem count');
         }
 
-        if (leetcodeOrbCount) leetcodeOrbCount.textContent = String(solvedCount);
-        if (leetcodeSolvedCount) leetcodeSolvedCount.textContent = String(solvedCount);
+        setCount(leetcodeOrbCount, solvedCount);
+        setCount(leetcodeSolvedCount, solvedCount);
       })
-      .catch(error => console.warn('Unable to load LeetCode solved-problem count:', error));
+      .catch(error => {
+        console.warn('Unable to load LeetCode solved-problem count:', error);
+        setCount(leetcodeOrbCount, 0);
+        setCount(leetcodeSolvedCount, 0);
+      });
   }
 }
 
@@ -194,7 +268,6 @@ function initNavigation() {
       });
     });
   }
-
 
   const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
