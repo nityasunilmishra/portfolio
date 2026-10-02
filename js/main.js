@@ -71,14 +71,108 @@ function initSocialStats() {
     const timeout = setTimeout(() => controller.abort(), 10000);
 
     try {
-      const response = await fetch(url, { ...options, signal: controller.signal });
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          Accept: 'application/json',
+          ...(options.headers || {})
+        }
+      });
+
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
       }
+
       return await response.json();
     } finally {
       clearTimeout(timeout);
     }
+  }
+
+  async function fetchLeetcodeSolvedCount() {
+    const username = 'nityasunilmishra';
+
+    const candidateFetchers = [
+      async () => {
+        const response = await fetch('https://leetcode.com/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            query: `
+              query getUserStats($username: String!) {
+                matchedUser(username: $username) {
+                  submitStatsGlobal {
+                    acSubmissionNum {
+                      difficulty
+                      count
+                      submissions
+                    }
+                  }
+                }
+              }
+            `,
+            variables: { username }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`LeetCode GraphQL failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        const stats = data?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
+
+        if (!Array.isArray(stats)) {
+          throw new Error('LeetCode GraphQL payload did not include a valid solved-stat array');
+        }
+
+        const total = stats.reduce((sum, item) => sum + (Number(item?.count) || 0), 0);
+
+        if (!Number.isFinite(total) || total < 0) {
+          throw new Error('LeetCode solved total is invalid');
+        }
+
+        return total;
+      },
+      async () => {
+        const data = await fetchJson(`https://leetcode-stats-api.herokuapp.com/${username}`);
+        const total = Number(data?.totalSolved ?? data?.solved ?? data?.totalSolvedCount ?? 0);
+
+        if (!Number.isFinite(total) || total < 0) {
+          throw new Error('LeetCode stats API returned an invalid total');
+        }
+
+        return total;
+      },
+      async () => {
+        const data = await fetchJson(`https://alfa-leetcode-api.onrender.com/userProfile/${username}`);
+        const total = Number(data?.totalSolved ?? data?.totalSolvedCount ?? data?.solved ?? 0);
+
+        if (!Number.isFinite(total) || total < 0) {
+          throw new Error('Legacy LeetCode API returned an invalid total');
+        }
+
+        return total;
+      }
+    ];
+
+    let lastError = null;
+
+    for (const fetcher of candidateFetchers) {
+      try {
+        return await fetcher();
+      } catch (error) {
+        lastError = error;
+        console.warn('LeetCode count fetch failed, trying the next fallback source:', error);
+      }
+    }
+
+    throw lastError || new Error('All LeetCode sources failed');
   }
 
   if (githubCount) {
@@ -97,15 +191,10 @@ function initSocialStats() {
   }
 
   if (leetcodeOrbCount || leetcodeSolvedCount) {
-    fetchJson('https://alfa-leetcode-api.onrender.com/userProfile/nityasunilmishra')
-      .then(profile => {
-        const solvedCount = Number(profile?.totalSolved);
-        if (!Number.isInteger(solvedCount) || solvedCount < 0) {
-          throw new Error('LeetCode response did not include a valid solved-problem count');
-        }
-
-        setCount(leetcodeOrbCount, solvedCount);
-        setCount(leetcodeSolvedCount, solvedCount);
+    fetchLeetcodeSolvedCount()
+      .then(total => {
+        setCount(leetcodeOrbCount, total);
+        setCount(leetcodeSolvedCount, total);
       })
       .catch(error => {
         console.warn('Unable to load LeetCode solved-problem count:', error);
