@@ -1,6 +1,6 @@
-# Nitya Mishra — Software Engineer & Full-Stack Developer ⚡
+# Nitya Mishra — IT Engineering Student & Aspiring Developer ⚡
 
-An ultra-modern, responsive personal portfolio website crafted for **Nitya Mishra** — 2nd Year IT Engineering undergraduate at **Dwarkadas J. Sanghvi College of Engineering (DJSCE)**, Mumbai (First Year Academic Honors: **9.9 CGPA**).
+An ultra-modern, responsive personal portfolio website crafted for **Nitya Mishra** — 2nd Year IT Engineering undergraduate at **Dwarkadas J. Sanghvi College of Engineering (DJSCE)**, Mumbai (First Year Academic : **9.9 CGPA**).
 
 Built to showcase high-impact engineering work, AI systems, browser extensions, and verified academic milestones.
 
