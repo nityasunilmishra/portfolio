@@ -97,9 +97,9 @@ function initSocialStats() {
   }
 
   if (leetcodeOrbCount || leetcodeSolvedCount) {
-    fetchJson('https://alfa-leetcode-api.onrender.com/userProfile/nityasunilmishra')
-      .then(profile => {
-        const solvedCount = Number(profile?.totalSolved);
+    fetchJson('https://alfa-leetcode-api.onrender.com/nityasunilmishra/solved')
+      .then(stats => {
+        const solvedCount = Number(stats?.solvedProblem);
         if (!Number.isInteger(solvedCount) || solvedCount < 0) {
           throw new Error('LeetCode response did not include a valid solved-problem count');
         }
@@ -109,8 +109,6 @@ function initSocialStats() {
       })
       .catch(error => {
         console.warn('Unable to load LeetCode solved-problem count:', error);
-        setCount(leetcodeOrbCount, 0);
-        setCount(leetcodeSolvedCount, 0);
       });
   }
 }
