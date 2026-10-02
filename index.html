@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Nitya Mishra | Software Engineer &amp; Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Nitya Mishra — IT Engineering student at DJSCE Mumbai (9.9 CGPA), Full-Stack Developer building AI-powered dashboards, Chrome extensions, and algorithmic solutions in C++.">
+  <meta name="keywords" content="Nitya Mishra, Software Engineer, Full-Stack Developer, DJSCE, 9.9 CGPA, Next.js, React, TypeScript, C++, Gemini AI, Mumbai">
+  <meta name="author" content="Nitya Mishra">
+  
+ 
+  <meta property="og:title" content="Nitya Mishra | Software Engineer &amp; Full-Stack Developer">
+  <meta property="og:description" content="Engineering high-performance web applications, AI-assisted tools, and algorithmic systems.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/nityasunilmishra">
+  <meta property="og:image" content="assets/profile.jpg">
+  
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="sharpen" x="0" y="0" width="100%" height="100%" color-interpolation-filters="linearRGB">
+        <feConvolveMatrix order="3" kernelMatrix="0 -0.5 0  -0.5 3 -0.5  0 -0.5 0" preserveAlpha="true"/>
+      </filter>
+    </defs>
+  </svg>
+
+
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+  
+ 
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+ 
+  <div id="toast" class="toast" role="alert" aria-live="polite">
+    <i class="fa-solid fa-check-circle"></i>
+    <span id="toast-message">Copied to clipboard!</span>
+  </div>
+
+
+  <header class="site-header" id="navbar">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" aria-label="Nitya Mishra Home">
+        <span class="logo-box">NM</span>
+        <span class="logo-text">Nitya<span class="accent-dot">.</span></span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu">
+        <ul class="nav-list">
+          <li><a href="#about" class="nav-link"><i class="fa-regular fa-user"></i> About</a></li>
+          <li><a href="#featured" class="nav-link"><i class="fa-solid fa-layer-group"></i> Work</a></li>
+          <li><a href="#skills" class="nav-link"><i class="fa-solid fa-microchip"></i> Capabilities</a></li>
+          <li><a href="#education" class="nav-link"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+          <li><a href="#contact" class="nav-link"><i class="fa-regular fa-paper-plane"></i> Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+      
+        <button id="theme-toggle" class="icon-btn theme-btn" aria-label="Toggle light or dark theme" title="Toggle theme">
+          <i class="fa-solid fa-sun light-icon"></i>
+          <i class="fa-solid fa-moon dark-icon"></i>
+        </button>
+
+
+        <a href="#contact" class="btn btn-outline btn-sm desktop-only">
+          <span>Let's Talk</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+     
+        <button id="menu-toggle" class="menu-toggle icon-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        
+        <div class="hero-content">
+          <div class="status-pill animate-fade-in">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for Hackathons &amp; Engineering Roles</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="greeting">Hello, I'm</span>
+            <span class="gradient-text hero-name">Nitya Mishra</span>
+          </h1>
+
+          <div class="typewriter-container" aria-label="Rotating subtitle">
+            <span class="type-prefix">&gt; </span>
+            <span class="type-text" id="typewriter"></span>
+            <span class="cursor">&block;</span>
+          </div>
+
+          <p class="hero-description">
+            IT Engineering Undergraduate at <strong>Dwarkadas J. Sanghvi College of Engineering (DJSCE)</strong>, Mumbai (<strong>9.9 CGPA</strong>). 
+            Architecting full-stack web systems, building AI-augmented browser utilities with Google Gemini, and solving algorithmic challenges in C++.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#featured" class="btn btn-primary">
+              <span>Explore Featured Work</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
+            <a href="#contact" class="btn btn-glass">
+              <span>Get In Touch</span>
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+            <button class="btn btn-icon-only copy-email-btn" data-email="nityasunilmishra@gmail.com" title="Copy email address" aria-label="Copy email address">
+              <i class="fa-regular fa-clone"></i>
+            </button>
+          </div>
+
+          <div class="social-bar">
+            <span class="social-label">Connect:</span>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/in/nitya-mishra-b8aa48321/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin-in"></i>
+                <span class="tooltip">LinkedIn</span>
+              </a>
+              <a href="https://github.com/nityasunilmishra" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub Profile">
+                <i class="fa-brands fa-github"></i>
+                <span class="tooltip">GitHub</span>
+              </a>
+              <a href="https://leetcode.com/u/nityasunilmishra/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LeetCode Profile">
+                <i class="fa-solid fa-code"></i>
+                <span class="tooltip">LeetCode</span>
+              </a>
+              <a href="https://codolio.com/profile/Nitn111" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Codolio Profile">
+                <i class="fa-solid fa-terminal"></i>
+                <span class="tooltip">Codolio</span>
+              </a>
+              <a href="mailto:nityasunilmishra@gmail.com" class="social-icon" aria-label="Send Email">
+                <i class="fa-solid fa-envelope"></i>
+                <span class="tooltip">Email</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      
+        <div class="hero-visual">
+          <div class="avatar-card-wrapper">
+            <div class="card-glow" aria-hidden="true"></div>
+            
+            <div class="avatar-card">
+            <div class="avatar-image-frame">
+                <div class="avatar-image-inner">
+               
+                  <img src="assets/profile.jpg" alt="Nitya Mishra - DJSCE" class="avatar-img" onerror="this.style.background='#1e293b'">
+                </div>
+                <div class="avatar-overlay-badge">
+                  <i class="fa-solid fa-award"></i>
+                  <span>9.9 CGPA • DJSCE</span>
+                </div>
+              </div>
+
+              <div class="avatar-card-info">
+                <div class="card-user-meta">
+                  <h3 class="user-fullname">Nitya Mishra</h3>
+                  <span class="user-handle">B.Tech IT Undergrad • Mumbai, IN</span>
+                </div>
+                
+                <div class="motto-chip">
+                  <i class="fa-solid fa-terminal"></i>
+                  <span>"Committed to the craft. Consistent in the work. Always growing."</span>
+                </div>
+
+                <div class="hero-badges-row">
+                  <div class="mini-badge">
+                    <span class="badge-num">9.9</span>
+                    <span class="badge-lbl">CGPA</span>
+                  </div>
+                  <div class="mini-badge">
+                    <span class="badge-num">Web Dev</span>
+                    <span class="badge-lbl">Full-Stack</span>
+                  </div>
+                  <div class="mini-badge">
+                    <span class="badge-num">C++</span>
+                    <span class="badge-lbl">DSA &amp; Logic</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-orb orb-1" aria-hidden="true">
+                <span class="orb-num">9.9</span>
+                <span class="orb-lbl">CGPA</span>
+              </div>
+              <div class="stat-orb orb-2" aria-hidden="true">
+                <span class="orb-num" id="leetcode-orb-count">--</span>
+                <span class="orb-lbl">LC Solved</span>
+              </div>
+              <div class="stat-orb orb-3" aria-hidden="true">
+                <span class="orb-num" id="github-repo-count">--</span>
+                <span class="orb-lbl">Public Repos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+ 
+    <section class="section metrics-section" id="stats">
+      <div class="container">
+        
+        <div class="metrics-grid">
+          
+          <div class="metric-card">
+            <div class="metric-icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+            <div class="metric-details">
+              <span class="metric-value">Lumina AI</span>
+              <span class="metric-title">Clinical Decision Support</span>
+              <p class="metric-desc">Next.js 16 hackathon prototype orchestrating multi-model triage telemetry.</p>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box"><i class="fa-solid fa-puzzle-piece"></i></div>
+            <div class="metric-details">
+              <span class="metric-value">ELI5 Extension</span>
+              <span class="metric-title">Gemini AI In Browser</span>
+              <p class="metric-desc">Manifest V3 Chrome extension backed by Express API deployed on Render.</p>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="metric-details">
+              <span class="metric-value">9.9 CGPA</span>
+              <span class="metric-title">Academic Excellence</span>
+              <p class="metric-desc">First year academic distinction at D.J. Sanghvi College of Engineering.</p>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="metric-details">
+              <div class="live-clock-inline">
+                <span class="metric-value" id="mumbai-time">--:--:--</span>
+                <span class="clock-badge">IST</span>
+              </div>
+              <span class="metric-title">Mumbai, India</span>
+              <p class="metric-desc">Actively collaborating on engineering initiatives and hackathons.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          
+          <div class="about-narrative">
+            <span class="section-tag"><i class="fa-regular fa-id-card"></i> Engineering Mindset</span>
+            <h2 class="section-title">Bridging Core Fundamentals With Production Systems</h2>
+            
+            <p class="lead-text">
+              I am an Information Technology undergraduate at <strong>Dwarkadas J. Sanghvi College of Engineering (DJSCE)</strong>, Mumbai. 
+              My focus is moving beyond tutorial-driven development to architecting software that performs reliably under real-world constraints.
+            </p>
+
+            <p>
+              Whether it's orchestrating telemetry and evidence chains in an AI clinical dashboard, writing low-latency Chrome extensions with Manifest V3, 
+              or optimizing algorithmic complexity in C++, I enjoy breaking complex technical problems down to first principles.
+            </p>
+
+            <div class="about-pillars">
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="pillar-body">
+                  <h4>Algorithmic Discipline &amp; C++</h4>
+                  <p>Strengthening logic through Data Structures &amp; Algorithms, analyzing time complexity ($\mathcal{O}(N)$), and understanding memory constraints.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-cubes"></i></div>
+                <div class="pillar-body">
+                  <h4>Modern Full-Stack Applications</h4>
+                  <p>Building maintainable web applications using Next.js, React, TypeScript, and Node.js with responsive, accessible interfaces.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="pillar-body">
+                  <h4>Practical Generative AI Engineering</h4>
+                  <p>Integrating state-of-the-art LLMs (like Google Gemini) into developer workflows, browser extensions, and decision support tools.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-cta-row">
+              <a href="#featured" class="btn btn-primary">
+                <span>Explore Featured Systems</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/nitya-mishra-b8aa48321/" target="_blank" rel="noopener" class="btn btn-outline">
+                <i class="fa-brands fa-linkedin"></i>
+                <span>Connect on LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="about-visual-side">
+            <div class="interactive-terminal">
+              <div class="terminal-bar">
+                <span class="term-btn term-red"></span>
+                <span class="term-btn term-yellow"></span>
+                <span class="term-btn term-green"></span>
+                <span class="term-title">nitya@djsce-engineering:~</span>
+              </div>
+              <div class="terminal-body">
+                <div class="term-line">
+                  <span class="term-prompt">$</span> <span class="term-cmd">cat profile.json</span>
+                </div>
+                <div class="term-res code-block">
+{
+  "name": "Nitya Mishra",
+  "college": "D. J. Sanghvi College of Engineering",
+  "degree": "B.Tech in Information Technology",
+  "academicStanding": "9.9 CGPA (First Year)",
+  "year": "2nd Year (Sophomore)",
+  "location": "Mumbai, India",
+  "focusAreas": [
+    "Next.js / React Full-Stack",
+    "Generative AI & Browser Extensions",
+    "Data Structures & Algorithms (C++)"
+  ]
+}
+                </div>
+
+                <div class="term-line">
+                  <span class="term-prompt">$</span> <span class="term-cmd">cat engineering_values.txt</span>
+                </div>
+                <div class="term-res">
+                  ✓ Understand the abstraction before using it<br>
+                  ✓ Write maintainable, clean code<br>
+                  ✓ Ship real products, not just toy tutorials
+                </div>
+
+                <div class="term-line">
+                  <span class="term-prompt">$</span> <span class="term-cmd">echo $MISSION_STATEMENT</span>
+                </div>
+                <div class="term-res accent-res">
+                  "Build intelligent, dependable software and be the very best at what I do."
+                </div>
+
+                <div class="term-line live-cursor-line">
+                  <span class="term-prompt">$</span> <span class="term-cursor">&block;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section projects-section" id="featured">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-code-fork"></i> Flagship Systems</span>
+          <h2 class="section-title">Featured Engineering Work</h2>
+          <p class="section-subtitle">Deep dive into high-impact systems, hackathon innovations, and production architectures.</p>
+        </div>
+
+        <div class="flagship-projects-container">
+
+          <!-- PROJECT 1: Lumina (AI Clinical Decision Support Dashboard) -->
+          <article class="featured-case-card">
+            <div class="case-header-grid">
+              <div class="case-meta">
+                <div class="case-category-pill">
+                  <i class="fa-solid fa-trophy"></i>
+                  <span>Hackathon Flagship • Healthcare AI</span>
+                </div>
+                <h3 class="case-title">Lumina — AI Clinical Decision Support Dashboard</h3>
+                <p class="case-tagline">
+                  A clinical intelligence platform simulating multi-model evidence orchestration, telemetry streaming, and explainable diagnostic review.
+                </p>
+              </div>
+              
+              <div class="case-actions">
+                <a href="https://github.com/nityasunilmishra/lumina" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                  <i class="fa-brands fa-github"></i>
+                  <span>Inspect Source Code</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="case-body-grid">
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-microchip"></i> System Architecture &amp; Capabilities</h4>
+                <ul class="feature-bullets">
+                  <li>
+                    <strong>Multi-Model Evidence Routing:</strong> Orchestrates diagnostic imaging findings, patient history, and respiratory risk signals into a unified physician review stream.
+                  </li>
+                  <li>
+                    <strong>Runtime Telemetry Monitoring:</strong> Visualizes memory utilization benchmarks (heap peak MB, memory reclaimed %) during intensive screening simulations.
+                  </li>
+                  <li>
+                    <strong>Explainability Overlay:</strong> Surfaced explainability badges and confidence scores on radiological cases to assist fast-paced clinical triage.
+                  </li>
+                  <li>
+                    <strong>Case Simulation API:</strong> Built demo endpoint (<code>POST /api/screening</code>) returning structured triage findings and verification states.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-layer-group"></i> Technologies &amp; Stack</h4>
+                <div class="tech-pills-wrap">
+                  <span class="pill-badge">Next.js 16 (App Router)</span>
+                  <span class="pill-badge">React 19</span>
+                  <span class="pill-badge">TypeScript</span>
+                  <span class="pill-badge">Tailwind CSS</span>
+                  <span class="pill-badge">Recharts</span>
+                  <span class="pill-badge">Lucide React</span>
+                  <span class="pill-badge">pnpm Workspaces</span>
+                </div>
+
+                <div class="system-metric-box">
+                  <div class="metric-item">
+                    <span class="metric-lbl">Architecture</span>
+                    <span class="metric-val">Serverless API + React 19 UI</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-lbl">Triage Latency</span>
+                    <span class="metric-val">&lt; 150ms Mock Response</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-lbl">Component Design</span>
+                    <span class="metric-val">Accessible Modern UI</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+       
+          <article class="featured-case-card">
+            <div class="case-header-grid">
+              <div class="case-meta">
+                <div class="case-category-pill">
+                  <i class="fa-solid fa-puzzle-piece"></i>
+                  <span>Chrome Extension • Generative AI &amp; Cloud</span>
+                </div>
+                <h3 class="case-title">ELI5 This Page — Intelligent AI Explainer</h3>
+                <p class="case-tagline">
+                  Manifest V3 browser extension and Node.js/Express cloud service powered by Google Gemini (<code>gemini-3.6-flash</code>) to synthesize complex web text in real time.
+                </p>
+              </div>
+              
+              <div class="case-actions">
+                <a href="https://github.com/nityasunilmishra/eli5-extension" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                  <i class="fa-brands fa-github"></i>
+                  <span>GitHub Repository</span>
+                </a>
+                <a href="https://eli5-extension.onrender.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>Live Render Cloud API</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="case-body-grid">
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-sliders"></i> Engineering Highlights</h4>
+                <ul class="feature-bullets">
+                  <li>
+                    <strong>Manifest V3 Compliance:</strong> Implemented service workers, secure content scripts, and context menu integrations compliant with the latest Chrome Extension security standards.
+                  </li>
+                  <li>
+                    <strong>Dynamic Reading Levels:</strong> Prompt-engineered Gemini 3.6 Flash to output across three distinct tiers: <em>5-Year-Old</em>, <em>Plain English</em>, or <em>Executive No-Fluff</em> summary.
+                  </li>
+                  <li>
+                    <strong>Selection &amp; Full-Page Parsing:</strong> Supports contextual text highlighting and whole-page extraction with automatic 8,000-character payload windowing.
+                  </li>
+                  <li>
+                    <strong>Cloud Microservice:</strong> Hosted on Render with strict origin permission policies, automated healthchecks, and JSON history logging.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-server"></i> Stack &amp; Infrastructure</h4>
+                <div class="tech-pills-wrap">
+                  <span class="pill-badge">Google Gemini API</span>
+                  <span class="pill-badge">Chrome Manifest V3</span>
+                  <span class="pill-badge">Node.js</span>
+                  <span class="pill-badge">Express.js</span>
+                  <span class="pill-badge">Render Cloud</span>
+                  <span class="pill-badge">Vanilla JS / DOM APIs</span>
+                </div>
+
+                <div class="system-metric-box">
+                  <div class="metric-item">
+                    <span class="metric-lbl">AI Model</span>
+                    <span class="metric-val">Gemini 3.6 Flash</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-lbl">Cloud Deployment</span>
+                    <span class="metric-val">Render Web Service</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-lbl">Extension Scope</span>
+                    <span class="metric-val">Zero Native Dep Overhead</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJECT 3: Algorithmic Logic & LeetCode Discipline -->
+          <article class="featured-case-card">
+            <div class="case-header-grid">
+              <div class="case-meta">
+                <div class="case-category-pill">
+                  <i class="fa-solid fa-code"></i>
+                  <span>Computer Science Fundamentals • C++</span>
+                </div>
+                <h3 class="case-title">Algorithmic Problem Solving &amp; DSA Repository</h3>
+                <p class="case-tagline">
+                  A dedicated repository and practice regimen focused on time/space complexity optimization, algorithmic paradigms, and C++ Standard Template Library mastery.
+                </p>
+              </div>
+              
+              <div class="case-actions">
+                <a href="https://github.com/nityasunilmishra/LeetCode_Journey" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                  <i class="fa-brands fa-github"></i>
+                  <span>GitHub Solutions Repo</span>
+                </a>
+                <a href="https://leetcode.com/u/nityasunilmishra/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  <span>LeetCode Profile</span>
+                </a>
+                <a href="https://codolio.com/profile/Nitn111" target="_blank" rel="noopener noreferrer" class="btn btn-glass">
+                  <i class="fa-solid fa-terminal"></i>
+                  <span>Codolio Tracker</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="case-body-grid">
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-cube"></i> Algorithmic Competencies</h4>
+                <ul class="feature-bullets">
+                  <li>
+                    <strong>Core Patterns:</strong> Daily focus on Sliding Window, Two Pointers, Fast &amp; Slow Pointers, Depth-First Search, Binary Search, and Bit Manipulation.
+                  </li>
+                  <li>
+                    <strong>C++ STL Fluency:</strong> Leveraging <code>std::vector</code>, <code>std::unordered_map</code>, heaps, and custom comparators for optimal memory locality and execution speed.
+                  </li>
+                  <li>
+                    <strong>Continuous Automation:</strong> Solutions automatically cataloged and pushed to GitHub via LeetHub-3.0 with complete problem statements and runtime percentiles.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="case-column">
+                <h4 class="column-heading"><i class="fa-solid fa-chart-line"></i> Verified Coding Trackers</h4>
+                <div class="tech-pills-wrap">
+                  <span class="pill-badge">C++ 20</span>
+                  <span class="pill-badge">Standard Template Library</span>
+                  <span class="pill-badge">Time Complexity Analysis</span>
+                  <span class="pill-badge">Space Optimization</span>
+                  <span class="pill-badge">LeetHub-3.0</span>
+                </div>
+
+                <div class="dsa-highlight-box">
+                  <div class="dsa-mini-stat">
+                    <span class="dsa-num">C++</span>
+                    <span class="dsa-desc">Primary Language</span>
+                  </div>
+                  <div class="dsa-mini-stat">
+                    <span class="dsa-num" id="leetcode-solved-count">--</span>
+                    <span class="dsa-desc">Problems Solved</span>
+                  </div>
+                  <div class="dsa-mini-stat">
+                    <span class="dsa-num">Nitn111</span>
+                    <span class="dsa-desc">Codolio Profile</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-microchip"></i> Capabilities</span>
+          <h2 class="section-title">Technical Skills &amp; Stack</h2>
+          <p class="section-subtitle">The tools, languages, and frameworks I use to engineer robust software.</p>
+        </div>
+
+        <div class="skills-categories-grid">
+
+          <div class="skills-cat-card">
+            <div class="skills-cat-header">
+              <div class="cat-icon"><i class="fa-solid fa-code"></i></div>
+              <h3>Languages</h3>
+            </div>
+            <div class="skills-pills">
+              <div class="skill-pill">
+                <span class="skill-name">C++</span>
+                <span class="skill-badge primary">DSA &amp; Logic</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">TypeScript</span>
+                <span class="skill-badge primary">Type-Safe Web</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">JavaScript (ES6+)</span>
+                <span class="skill-badge">Full-Stack</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Python</span>
+                <span class="skill-badge">Scripting</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">C</span>
+                <span class="skill-badge">Low-Level Memory</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">SQL</span>
+                <span class="skill-badge">Relational Queries</span>
+              </div>
+            </div>
+          </div>
+
+   
+          <div class="skills-cat-card">
+            <div class="skills-cat-header">
+              <div class="cat-icon"><i class="fa-brands fa-react"></i></div>
+              <h3>Frontend Architecture</h3>
+            </div>
+            <div class="skills-pills">
+              <div class="skill-pill">
+                <span class="skill-name">Next.js 16</span>
+                <span class="skill-badge primary">App Router &amp; SSR</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">React 19</span>
+                <span class="skill-badge">Modern Hooks</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Tailwind CSS</span>
+                <span class="skill-badge">Clean Design</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Chrome Extensions</span>
+                <span class="skill-badge primary">Manifest V3</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Recharts &amp; Lucide</span>
+                <span class="skill-badge">Data Visualization</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Responsive Design</span>
+                <span class="skill-badge">Mobile First</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-cat-card">
+            <div class="skills-cat-header">
+              <div class="cat-icon"><i class="fa-solid fa-server"></i></div>
+              <h3>Backend &amp; Cloud</h3>
+            </div>
+            <div class="skills-pills">
+              <div class="skill-pill">
+                <span class="skill-name">Node.js</span>
+                <span class="skill-badge">Runtime</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Express.js</span>
+                <span class="skill-badge">RESTful APIs</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Google Gemini API</span>
+                <span class="skill-badge primary">Generative AI</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">MongoDB &amp; MySQL</span>
+                <span class="skill-badge">Databases</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Render &amp; Vercel</span>
+                <span class="skill-badge">Continuous Deployment</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-cat-card">
+            <div class="skills-cat-header">
+              <div class="cat-icon"><i class="fa-solid fa-wrench"></i></div>
+              <h3>Workflow &amp; Practices</h3>
+            </div>
+            <div class="skills-pills">
+              <div class="skill-pill">
+                <span class="skill-name">Git &amp; GitHub</span>
+                <span class="skill-badge">Version Control</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">VS Code</span>
+                <span class="skill-badge">Development</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">Chrome DevTools</span>
+                <span class="skill-badge">Performance &amp; A11y</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">pnpm / npm</span>
+                <span class="skill-badge">Package Systems</span>
+              </div>
+              <div class="skill-pill">
+                <span class="skill-name">LeetHub-3.0</span>
+                <span class="skill-badge">Automated CI Sync</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="section education-section" id="education">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-graduation-cap"></i> Academic Background</span>
+          <h2 class="section-title">Education</h2>
+          <p class="section-subtitle">Verified academic qualifications directly from my LinkedIn profile.</p>
+        </div>
+
+        <div class="education-cards-grid">
+
+      
+          <div class="edu-card featured-edu">
+            <div class="edu-badge-top">
+              <span class="edu-status-pill"><span class="pulse-dot"></span> Current Degree</span>
+              <span class="edu-grade-pill"><i class="fa-solid fa-star"></i> 9.9 CGPA</span>
+            </div>
+
+            <div class="edu-header">
+              <div class="edu-icon-box">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+              <div class="edu-title-group">
+                <h3 class="edu-school">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</h3>
+                <h4 class="edu-degree">Bachelor of Technology (B.Tech) — Information Technology</h4>
+                <div class="edu-meta">
+                  <span class="edu-dates"><i class="fa-regular fa-calendar"></i> 2025 — Present (2nd Year)</span>
+                  <span class="edu-loc"><i class="fa-solid fa-location-dot"></i> Mumbai, Maharashtra, India</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edu-body">
+              <p class="edu-desc">
+                Enrolled in the B.Tech Information Technology curriculum at DJSCE, an autonomous premier engineering institute in Mumbai. 
+                Achieved a standout <strong>9.9 CGPA</strong> in the first academic year while building a strong foundation in core computer science disciplines.
+              </p>
+              
+              <div class="edu-highlights">
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> 9.9 CGPA Academic Distinction</span>
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> Data Structures &amp; Algorithms</span>
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> Operating Systems &amp; Discrete Math</span>
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> Database Management Systems</span>
+              </div>
+            </div>
+          </div>
+
+      
+          <div class="edu-card">
+            <div class="edu-badge-top">
+              <span class="edu-status-pill finished">Completed</span>
+              <span class="edu-grade-pill"><i class="fa-solid fa-star"></i> 95.17%</span>
+            </div>
+
+            <div class="edu-header">
+              <div class="edu-icon-box birla-icon">
+                <i class="fa-solid fa-flask"></i>
+              </div>
+              <div class="edu-title-group">
+                <h3 class="edu-school">B. K. Birla College of Arts, Science &amp; Commerce (Autonomous)</h3>
+                <h4 class="edu-degree">Higher Secondary Certificate (HSC) — Science</h4>
+                <div class="edu-meta">
+                  <span class="edu-dates"><i class="fa-regular fa-calendar"></i> 2023 — 2025</span>
+                  <span class="edu-loc"><i class="fa-solid fa-location-dot"></i> Kalyan, Maharashtra, India</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edu-body">
+              <p class="edu-desc">
+                Completed higher secondary education in the Science stream with a strong focus on Mathematics, Physics, and analytical problem solving, preparing for competitive engineering entrance examinations.
+              </p>
+
+              <div class="edu-highlights">
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> Higher Secondary Science</span>
+                <span class="highlight-item"><i class="fa-solid fa-check"></i> Mathematics &amp; Computational Foundations</span>
+              </div>
+            </div>
+          </div>
+
+         
+          <div class="edu-card">
+            <div class="edu-badge-top">
+              <span class="edu-status-pill finished">Completed</span>
+              <span class="edu-grade-pill"><i class="fa-solid fa-star"></i> 93.6%</span>
+            </div>
+
+            <div class="edu-header">
+              <div class="edu-icon-box school-icon">
+                <i class="fa-solid fa-school"></i>
+              </div>
+              <div class="edu-title-group">
+                <h3 class="edu-school">Secondary Education (SSC)</h3>
+                <h4 class="edu-degree">Secondary School Certificate (Class X)</h4>
+                <div class="edu-meta">
+                  <span class="edu-dates"><i class="fa-regular fa-calendar"></i> Completed March 2023</span>
+                  <span class="edu-loc"><i class="fa-solid fa-location-dot"></i> Maharashtra State Board</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edu-body">
+              <p class="edu-desc">
+                Foundational schooling with high distinction across Science, Mathematics, and Languages, setting the groundwork for an engineering trajectory.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+   
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-envelope-open-text"></i> Let's Connect</span>
+          <h2 class="section-title">Get In Touch</h2>
+          <p class="section-subtitle">Interested in collaborating on a hackathon, software project, or discussing engineering opportunities?</p>
+        </div>
+
+        <div class="contact-grid">
+          
+          <div class="contact-info-panel">
+            <h3 class="info-title">Let's build something remarkable together</h3>
+            <p class="info-text">
+              I am open to hackathon partnerships, software engineering internships, and collaborative software projects. 
+              Feel free to connect or drop a message!
+            </p>
+
+            <div class="contact-cards-list">
+              
+              <div class="contact-card">
+                <div class="contact-card-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+                <div class="contact-card-details">
+                  <span class="detail-label">LinkedIn</span>
+                  <a href="https://www.linkedin.com/in/nitya-mishra-b8aa48321/" target="_blank" rel="noopener" class="detail-value">Nitya Mishra</a>
+                </div>
+                <a href="https://www.linkedin.com/in/nitya-mishra-b8aa48321/" target="_blank" rel="noopener" class="btn btn-icon-only" title="Open LinkedIn Profile">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-card-icon"><i class="fa-regular fa-envelope"></i></div>
+                <div class="contact-card-details">
+                  <span class="detail-label">Email</span>
+                  <a href="mailto:nityasunilmishra@gmail.com" class="detail-value">nityasunilmishra@gmail.com</a>
+                </div>
+                <button class="btn btn-icon-only copy-email-btn" data-email="nityasunilmishra@gmail.com" title="Copy email">
+                  <i class="fa-regular fa-clone"></i>
+                </button>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-card-icon"><i class="fa-brands fa-github"></i></div>
+                <div class="contact-card-details">
+                  <span class="detail-label">GitHub</span>
+                  <a href="https://github.com/nityasunilmishra" target="_blank" rel="noopener" class="detail-value">github.com/nityasunilmishra</a>
+                </div>
+                <a href="https://github.com/nityasunilmishra" target="_blank" rel="noopener" class="btn btn-icon-only" title="Open GitHub Profile">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-card-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="contact-card-details">
+                  <span class="detail-label">Location</span>
+                  <span class="detail-value">Mumbai, Maharashtra, India</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="contact-form-panel">
+            <form id="contact-form" class="styled-form">
+              <div class="form-header">
+                <h3>Send a Message</h3>
+                <p>This generates a pre-filled direct email to Nitya.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-user"></i>
+                  <input type="text" id="name" name="name" required placeholder="e.g. Alex Morgan">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Your Email</label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-envelope"></i>
+                  <input type="email" id="email" name="email" required placeholder="alex@company.com">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-tag"></i>
+                  <input type="text" id="subject" name="subject" required placeholder="Hackathon Collaboration / Software Role">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required placeholder="Hi Nitya, I came across your portfolio and wanted to discuss..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                <span>Send Message</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="#hero" class="brand-logo">
+          <span class="logo-box">NM</span>
+          <span class="logo-text">Nitya Mishra</span>
+        </a>
+        <p class="footer-tagline">
+          Engineered with curiosity in Mumbai, India. Focused on core computer science fundamentals and shipping real software.
+        </p>
+      </div>
+
+      <div class="footer-links-group">
+        <a href="#about">About</a>
+        <a href="#featured">Work</a>
+        <a href="#skills">Capabilities</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/nitya-mishra-b8aa48321/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://github.com/nityasunilmishra" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://leetcode.com/u/nityasunilmishra/" target="_blank" rel="noopener" aria-label="LeetCode"><i class="fa-solid fa-code"></i></a>
+        <a href="https://codolio.com/profile/Nitn111" target="_blank" rel="noopener" aria-label="Codolio"><i class="fa-solid fa-terminal"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 Nitya Mishra. All rights reserved.</p>
+        <a href="#hero" class="back-to-top" aria-label="Back to top">
+          <span>Back to Top</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
