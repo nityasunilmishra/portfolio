@@ -33,32 +33,6 @@ Built to showcase high-impact engineering work, AI systems, browser extensions, 
 
 ---
 
-## 🚀 Quick Start & Local Preview
-
-### 1. Direct Preview
-Open `index.html` directly in any modern browser (Chrome, Edge, Brave, Firefox, Safari).
-
-### 2. Local HTTP Server
-```bash
-npx serve .
-```
-Navigate to `http://localhost:3000`.
-
----
-
-## 🌐 1-Click Free Deployment
-
-### GitHub Pages
-1. Push this folder to a GitHub repository (e.g. `https://github.com/nityasunilmishra/portfolio` or `nityasunilmishra.github.io`).
-2. Go to **Settings** → **Pages** → select branch `main` and root `/`.
-3. Save. The site will be live worldwide at `https://nityasunilmishra.github.io`.
-
-### Vercel
-```bash
-npx vercel
-```
-
----
 
 ## 📂 Project Structure
 
