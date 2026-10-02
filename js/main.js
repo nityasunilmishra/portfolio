@@ -42,26 +42,14 @@ function initSocialStats() {
   }
 
   if (leetcodeOrbCount || leetcodeSolvedCount) {
-    fetchJson('https://leetcode.com/graphql/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: 'query userProblemsSolved($username: String!) { matchedUser(username: $username) { submitStats { acSubmissionNum { difficulty count } } } }',
-        variables: { username: 'nityasunilmishra' }
-      })
-    })
-      .then(response => {
-        const solvedCounts = response.data?.matchedUser?.submitStats?.acSubmissionNum;
-        const solvedCount = Array.isArray(solvedCounts)
-          ? solvedCounts.find(item => item.difficulty === 'All')?.count
-          : undefined;
-
-        if (!Number.isInteger(solvedCount) || solvedCount < 0) {
+    fetchJson('https://alfa-leetcode-api.onrender.com/userProfile/nityasunilmishra')
+      .then(profile => {
+        if (!Number.isInteger(profile.totalSolved) || profile.totalSolved < 0) {
           throw new Error('LeetCode response did not include a valid solved-problem count');
         }
 
-        if (leetcodeOrbCount) leetcodeOrbCount.textContent = String(solvedCount);
-        if (leetcodeSolvedCount) leetcodeSolvedCount.textContent = String(solvedCount);
+        if (leetcodeOrbCount) leetcodeOrbCount.textContent = String(profile.totalSolved);
+        if (leetcodeSolvedCount) leetcodeSolvedCount.textContent = String(profile.totalSolved);
       })
       .catch(error => console.warn('Unable to load LeetCode solved-problem count:', error));
   }
