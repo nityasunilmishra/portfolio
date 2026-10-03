@@ -435,11 +435,14 @@ function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const CONTACT_EMAIL = 'nityasunilmishra@gmail.com';
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // form.name is a reserved HTMLFormElement property (the form's name attr),
-    // so read fields via elements / querySelector — not form.name.
+    // so read fields via elements — not form.name.
     const name = (form.elements.namedItem('name')?.value || '').trim();
     const email = (form.elements.namedItem('email')?.value || '').trim();
     const subject = (form.elements.namedItem('subject')?.value || '').trim();
@@ -450,18 +453,47 @@ function initContactForm() {
       return;
     }
 
-    const fullBody = `Hi Nitya,\n\n${message}\n\nFrom: ${name} (${email})`;
-    const mailtoUrl = `mailto:nityasunilmishra@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(fullBody)}`;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+    }
 
-    showToast('Opening your email client...');
+    showToast('Sending your message...');
 
-    const mailLink = document.createElement('a');
-    mailLink.href = mailtoUrl;
-    mailLink.style.display = 'none';
-    document.body.appendChild(mailLink);
-    mailLink.click();
-    mailLink.remove();
+    try {
+      // FormSubmit delivers to your inbox — visitors need no mail app or extensions.
+      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          _subject: subject || 'Portfolio Inquiry',
+          message,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
 
-    form.reset();
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to send message');
+      }
+
+      showToast('Message sent! I will get back to you soon.');
+      form.reset();
+    } catch (error) {
+      console.error('Contact form error:', error);
+      showToast('Could not send right now. Please email me directly.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      }
+    }
   });
 }
