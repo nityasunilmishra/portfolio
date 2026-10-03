@@ -438,10 +438,12 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const subject = form.subject.value.trim();
-    const message = form.message.value.trim();
+    // form.name is a reserved HTMLFormElement property (the form's name attr),
+    // so read fields via elements / querySelector — not form.name.
+    const name = (form.elements.namedItem('name')?.value || '').trim();
+    const email = (form.elements.namedItem('email')?.value || '').trim();
+    const subject = (form.elements.namedItem('subject')?.value || '').trim();
+    const message = (form.elements.namedItem('message')?.value || '').trim();
 
     if (!name || !email || !message) {
       showToast('Please fill in all required fields');
@@ -452,7 +454,13 @@ function initContactForm() {
     const mailtoUrl = `mailto:nityasunilmishra@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(fullBody)}`;
 
     showToast('Opening your email client...');
-    window.location.href = mailtoUrl;
+
+    const mailLink = document.createElement('a');
+    mailLink.href = mailtoUrl;
+    mailLink.style.display = 'none';
+    document.body.appendChild(mailLink);
+    mailLink.click();
+    mailLink.remove();
 
     form.reset();
   });
