@@ -1,141 +1,79 @@
-
-
 (function () {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-  let mouse = { x: null, y: null, radius: 150 };
+  let width = 0;
+  let height = 0;
+  let stars = [];
   let animationFrameId;
-
-  // Particle configuration
-  const PARTICLE_COUNT = Math.min(Math.floor(window.innerWidth / 20), 65);
-  const CONNECTION_DIST = 140;
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-
-    reset() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.size = Math.random() * 2 + 0.8;
-      this.baseSize = this.size;
-      this.speedX = (Math.random() - 0.5) * 0.6;
-      this.speedY = (Math.random() - 0.5) * 0.6;
-      this.opacity = Math.random() * 0.45 + 0.2;
-    }
-
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-
-      if (this.x < 0) this.x = width;
-      if (this.x > width) this.x = 0;
-      if (this.y < 0) this.y = height;
-      if (this.y > height) this.y = 0;
-
-   
-      if (mouse.x !== null && mouse.y !== null) {
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < mouse.radius) {
-          const force = (mouse.radius - dist) / mouse.radius;
-          this.x -= (dx / dist) * force * 2.5;
-          this.y -= (dy / dist) * force * 2.5;
-          this.size = this.baseSize + force * 1.5;
-        } else {
-          this.size = this.baseSize;
-        }
-      }
-    }
-
-    draw() {
-      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = isDark
-        ? `rgba(45, 212, 191, ${this.opacity})`
-        : `rgba(20, 184, 166, ${this.opacity * 0.8})`;
-      ctx.fill();
-    }
-  }
+  const pointer = { x: 0, y: 0, active: false };
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const palette = ['#8b5cf6', '#0ea5e9', '#f59e0b', '#ec4899'];
 
   function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function createStar() {
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 1.5 + 0.35,
+      depth: Math.random() * 0.8 + 0.2,
+      twinkle: Math.random() * Math.PI * 2,
+      color: palette[Math.floor(Math.random() * palette.length)]
+    };
   }
 
   function init() {
     resize();
-    particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(new Particle());
-    }
+    stars = Array.from({ length: Math.min(150, Math.floor(width / 7)) }, createStar);
   }
 
-  function connect() {
-    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    for (let a = 0; a < particles.length; a++) {
-      for (let b = a + 1; b < particles.length; b++) {
-        const dx = particles[a].x - particles[b].x;
-        const dy = particles[a].y - particles[b].y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < CONNECTION_DIST) {
-          const alpha = (1 - distance / CONNECTION_DIST) * 0.18;
-          ctx.beginPath();
-          ctx.moveTo(particles[a].x, particles[a].y);
-          ctx.lineTo(particles[b].x, particles[b].y);
-          ctx.strokeStyle = isDark
-            ? `rgba(45, 212, 191, ${alpha})`
-            : `rgba(20, 184, 166, ${alpha * 0.7})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  function animate() {
+  function draw() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     ctx.clearRect(0, 0, width, height);
 
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-    }
+    stars.forEach((star) => {
+      if (!prefersReducedMotion) {
+        star.twinkle += 0.015;
+        star.y -= 0.04 * star.depth;
+        if (star.y < -5) star.y = height + 5;
+      }
 
-    connect();
-    animationFrameId = requestAnimationFrame(animate);
+      const driftX = pointer.active ? (pointer.x - width / 2) * star.depth * 0.012 : 0;
+      const alpha = (0.2 + (Math.sin(star.twinkle) + 1) * 0.22) * (isLight ? 0.45 : 1);
+      ctx.beginPath();
+      ctx.arc(star.x + driftX, star.y, star.radius * star.depth, 0, Math.PI * 2);
+      ctx.fillStyle = star.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+    });
+
+    ctx.globalAlpha = 1;
+    if (!prefersReducedMotion) animationFrameId = requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', () => {
-    resize();
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
-
-  window.addEventListener('mouseleave', () => {
-    mouse.x = null;
-    mouse.y = null;
-  });
-
+  window.addEventListener('resize', init, { passive: true });
+  window.addEventListener('mousemove', (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+  }, { passive: true });
+  window.addEventListener('mouseleave', () => { pointer.active = false; });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      cancelAnimationFrame(animationFrameId);
-    } else {
-      animate();
-    }
+    if (document.hidden) cancelAnimationFrame(animationFrameId);
+    else if (!prefersReducedMotion) draw();
   });
 
   init();
-  animate();
+  draw();
 })();

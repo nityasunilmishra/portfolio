@@ -165,7 +165,8 @@ button, input, textarea {
 }
 
 [data-theme="light"] .ambient-glow {
-  opacity: 0.15;
+  opacity: 0.24;
+  filter: blur(100px) saturate(125%);
 }
 
 .glow-1 {
@@ -2719,4 +2720,97 @@ button, input, textarea {
   background: var(--accent-emerald);
   box-shadow: 0 0 8px var(--accent-emerald);
   animation: pulseDot 2s infinite;
+}
+
+/* --- Cosmic portfolio layer --- */
+.cosmic-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: linear-gradient(rgba(139, 92, 246, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+.orbit {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(139, 92, 246, 0.16);
+  border-radius: 50%;
+  transform: rotate(-24deg);
+  animation: orbitDrift 24s linear infinite;
+}
+
+.orbit span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 4%;
+  left: 50%;
+  border-radius: 50%;
+  background: var(--accent-violet);
+  box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.6);
+}
+
+.orbit-one { width: 42vw; height: 16vw; top: 8%; right: -10vw; }
+.orbit-two { width: 32vw; height: 13vw; bottom: 10%; left: -12vw; animation-duration: 31s; animation-direction: reverse; border-color: rgba(14, 165, 233, 0.16); }
+.orbit-two span { background: var(--accent-sky); box-shadow: 0 0 20px 5px rgba(14, 165, 233, 0.55); }
+
+.constellation-label {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-muted);
+  font: 600 0.62rem var(--font-mono);
+  letter-spacing: 0.14em;
+  opacity: 0.72;
+  writing-mode: vertical-rl;
+}
+
+.constellation-label i { width: 1px; height: 42px; background: var(--accent-violet); }
+
+[data-theme="light"] {
+  --bg-base: #f5f7fb;
+  --bg-surface: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --bg-card-hover: rgba(255, 255, 255, 0.96);
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --border-subtle: rgba(30, 41, 59, 0.12);
+  --border-focus: rgba(109, 40, 217, 0.48);
+  --border-glow: rgba(14, 165, 233, 0.22);
+  --text-primary: #172033;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-light: #172033;
+  --accent-teal: #0f766e;
+  --accent-teal-deep: #0d9488;
+  --accent-violet: #6d28d9;
+  --gradient-primary: linear-gradient(135deg, #6d28d9, #0f766e);
+  --gradient-text: linear-gradient(120deg, #6d28d9 0%, #0369a1 52%, #0f766e 100%);
+  --shadow-md: 0 14px 36px rgba(51, 65, 85, 0.11);
+}
+
+[data-theme="light"] .cosmic-grid { opacity: 0.52; }
+[data-theme="light"] .orbit { border-color: rgba(109, 40, 217, 0.14); }
+[data-theme="light"] .site-header { background: rgba(245, 247, 251, 0.78); }
+[data-theme="light"] .card-glow { opacity: 0.3; }
+
+@keyframes orbitDrift { to { transform: rotate(336deg); } }
+
+@media (max-width: 768px) {
+  .constellation-label { display: none; }
+  .orbit-one { width: 70vw; height: 28vw; right: -24vw; }
+  .orbit-two { width: 62vw; height: 25vw; left: -26vw; }
+  .cosmic-grid { background-size: 48px 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit, .ambient-glow { animation: none; }
 }
