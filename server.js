@@ -14,10 +14,13 @@ app.get('/health', (req, res) => {
 
 app.get('/api/leetcode', async (req, res) => {
   try {
-    const total = await getLeetCodeSolvedCount(LEETCODE_USERNAME);
+    const stats = await getLeetCodeSolvedCount(LEETCODE_USERNAME);
     res.json({
       username: LEETCODE_USERNAME,
-      solved: total,
+      solved: stats.total,
+      easy: stats.easy,
+      medium: stats.medium,
+      hard: stats.hard,
       source: 'leetcode-graphql'
     });
   } catch (error) {
@@ -68,13 +71,24 @@ async function getLeetCodeSolvedCount(username) {
     throw new Error('LeetCode GraphQL payload did not include valid stats.');
   }
 
-  const total = Number(stats.find(item => item?.difficulty === 'All')?.count);
+  const get = (diff) => {
+    const item = stats.find(i => i?.difficulty === diff);
+    const count = Number(item?.count ?? 0);
+    return Number.isInteger(count) && count >= 0 ? count : 0;
+  };
+
+  const total = get('All');
 
   if (!Number.isInteger(total) || total < 0) {
     throw new Error('LeetCode solved total is invalid.');
   }
 
-  return total;
+  return {
+    total,
+    easy: get('Easy'),
+    medium: get('Medium'),
+    hard: get('Hard')
+  };
 }
 
 app.listen(PORT, () => {
