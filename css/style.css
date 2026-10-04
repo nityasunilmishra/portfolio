@@ -247,8 +247,55 @@ body::after {
   to { transform: translate3d(3%, 2%, 0) rotate(3deg) scale(1.08); }
 }
 
+/* Layered aurora ribbons make the backdrop feel alive rather than decorative. */
+body::before {
+  background:
+    radial-gradient(ellipse at 76% 18%, rgba(139, 92, 246, 0.25), transparent 25%),
+    radial-gradient(ellipse at 12% 72%, rgba(14, 165, 233, 0.2), transparent 28%),
+    radial-gradient(ellipse at 52% 44%, rgba(45, 212, 191, 0.13), transparent 25%),
+    conic-gradient(from 210deg at 52% 48%, transparent 0 22%, rgba(45, 212, 191, 0.08) 30%, transparent 42%, rgba(236, 72, 153, 0.08) 58%, transparent 70%);
+  filter: blur(38px) saturate(135%);
+}
+
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(ellipse at 80% 14%, rgba(124, 58, 237, 0.2), transparent 25%),
+    radial-gradient(ellipse at 10% 78%, rgba(2, 132, 199, 0.16), transparent 28%),
+    radial-gradient(ellipse at 54% 42%, rgba(13, 148, 136, 0.12), transparent 25%),
+    conic-gradient(from 210deg at 52% 48%, transparent 0 22%, rgba(13, 148, 136, 0.07) 30%, transparent 42%, rgba(219, 39, 119, 0.06) 58%, transparent 70%);
+  opacity: 0.9;
+}
+
 [data-theme="light"] #bg-canvas {
-  opacity: 0.25;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+
+.hero-section {
+  isolation: isolate;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 12% 8% auto;
+  height: 52%;
+  border-radius: 50%;
+  border: 1px solid rgba(45, 212, 191, 0.12);
+  box-shadow: 0 0 100px rgba(139, 92, 246, 0.1), inset 0 0 80px rgba(45, 212, 191, 0.05);
+  transform: rotate(-10deg) scaleX(1.25);
+  pointer-events: none;
+  z-index: -1;
+  animation: heroHalo 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroHalo {
+  from { transform: rotate(-10deg) scaleX(1.25) translateY(-8px); opacity: 0.45; }
+  to { transform: rotate(8deg) scaleX(1.1) translateY(18px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section::after { animation: none; }
 }
 
 /* --- Container & Utilities --- */
