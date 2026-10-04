@@ -406,7 +406,8 @@
             </div>
 
             <div class="tracker-chart-container">
-              <canvas id="leetcode-chart" height="180"></canvas>
+              <p class="tracker-chart-label">Daily submissions · last 30 days</p>
+              <canvas id="leetcode-chart" height="180" role="img" aria-label="LeetCode daily submissions over the last 30 days"></canvas>
             </div>
 
             <div class="tracker-footer">
@@ -428,7 +429,7 @@
               </div>
               <span class="tracker-live-badge">
                 <span class="live-pulse"></span>
-                <span id="cd-updated-label">Updated daily</span>
+                <span id="cd-updated-label">Loading…</span>
               </span>
             </div>
 
@@ -438,21 +439,22 @@
                 <span class="tracker-stat-lbl">Total Solved</span>
               </div>
               <div class="tracker-stat">
-                <span class="tracker-stat-num cd-streak" id="cd-streak">--</span>
-                <span class="tracker-stat-lbl">Day Streak</span>
+                <span class="tracker-stat-num cd-streak" id="cd-active-days">--</span>
+                <span class="tracker-stat-lbl">Active Days</span>
               </div>
               <div class="tracker-stat">
-                <span class="tracker-stat-num cd-rating" id="cd-rating">--</span>
-                <span class="tracker-stat-lbl">Rating</span>
+                <span class="tracker-stat-num cd-rating" id="cd-profile-views">--</span>
+                <span class="tracker-stat-lbl">Profile Views</span>
               </div>
               <div class="tracker-stat">
-                <span class="tracker-stat-num cd-rank" id="cd-rank">--</span>
-                <span class="tracker-stat-lbl">Rank</span>
+                <span class="tracker-stat-num cd-rank" id="cd-platforms">--</span>
+                <span class="tracker-stat-lbl">Linked Platforms</span>
               </div>
             </div>
 
             <div class="tracker-chart-container">
-              <canvas id="codolio-chart" height="180"></canvas>
+              <p class="tracker-chart-label">GitHub contributions · last 30 days</p>
+              <canvas id="codolio-chart" height="180" role="img" aria-label="GitHub daily contributions from Codolio over the last 30 days"></canvas>
             </div>
 
             <div class="tracker-footer">
@@ -466,7 +468,7 @@
 
         <p class="tracker-disclaimer">
           <i class="fa-solid fa-circle-info"></i>
-          Stats refresh automatically every 24 hours. Last refresh: <span id="tracker-last-refresh">--</span>
+          Codolio stats refresh on each visit; LeetCode stats may be cached for up to 24 hours. Last refresh: <span id="tracker-last-refresh">--</span>
         </p>
 
       </div>

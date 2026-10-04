@@ -1409,6 +1409,15 @@ button, input, textarea {
   margin-bottom: 1.25rem;
 }
 
+.tracker-chart-label {
+  margin: 0 0 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 [data-theme="light"] .tracker-chart-container {
   background: rgba(0, 0, 0, 0.02);
 }

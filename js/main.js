@@ -204,16 +204,15 @@ function initCodingTracker() {
   const lcMedium = document.getElementById('lc-medium');
   const lcHard = document.getElementById('lc-hard');
   const cdTotal = document.getElementById('cd-total');
-  const cdStreak = document.getElementById('cd-streak');
-  const cdRating = document.getElementById('cd-rating');
-  const cdRank = document.getElementById('cd-rank');
+  const cdActiveDays = document.getElementById('cd-active-days');
+  const cdProfileViews = document.getElementById('cd-profile-views');
+  const cdPlatforms = document.getElementById('cd-platforms');
   const lcUpdatedLabel = document.getElementById('lc-updated-label');
   const cdUpdatedLabel = document.getElementById('cd-updated-label');
   const refreshLabel = document.getElementById('tracker-last-refresh');
 
   const LC_USERNAME = 'nityasunilmishra';
-  const CD_USERNAME = 'Nitn111';
-  const STORAGE_KEY = 'nm_coding_tracker_cache';
+  const STORAGE_KEY = 'nm_coding_tracker_cache_v3';
 
   function getDailyKey() {
     const d = new Date();
@@ -309,55 +308,111 @@ function initCodingTracker() {
     return null;
   }
 
-  async function fetchCodolioData() {
+  async function fetchLeetCodeActivity() {
     const fetchers = [
       async () => {
-        const d = await fetchJson('https://codolio-api.vercel.app/user/Nitn111');
-        return {
-          total: Number(d?.totalSolved ?? d?.solved ?? 0),
-          streak: Number(d?.streak ?? d?.currentStreak ?? 0),
-          rating: Number(d?.rating ?? d?.contestRating ?? 0),
-          rank: d?.rank ?? d?.globalRank ?? '--'
-        };
+        const data = await fetchJson(`https://alfa-leetcode-api.onrender.com/userProfile/${LC_USERNAME}`);
+        return normalizeActivityCalendar(data?.submissionCalendar);
       },
       async () => {
-        const d = await fetchJson(`https://codolio-api.onrender.com/profile/Nitn111`);
-        return {
-          total: Number(d?.totalSolved ?? d?.solved ?? 0),
-          streak: Number(d?.streak ?? d?.currentStreak ?? 0),
-          rating: Number(d?.rating ?? d?.contestRating ?? 0),
-          rank: d?.rank ?? d?.globalRank ?? '--'
-        };
+        const response = await fetch('https://leetcode.com/graphql', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            query: `query getUserActivity($username: String!) {
+              matchedUser(username: $username) { submissionCalendar }
+            }`,
+            variables: { username: LC_USERNAME }
+          })
+        });
+        if (!response.ok) throw new Error(`LeetCode activity request failed with HTTP ${response.status}`);
+        const data = await response.json();
+        return normalizeActivityCalendar(data?.data?.matchedUser?.submissionCalendar);
       }
     ];
 
-    for (const f of fetchers) {
-      try { return await f(); } catch (e) { console.warn('Codolio fetch failed:', e); }
+    let lastError = null;
+    for (const fetcher of fetchers) {
+      try {
+        const activity = await fetcher();
+        if (!activity) throw new Error('LeetCode response did not include a valid submission calendar');
+        return activity;
+      } catch (error) {
+        lastError = error;
+        console.warn('LeetCode activity fetch failed, trying next source:', error);
+      }
     }
-    return null;
+    throw lastError || new Error('All LeetCode activity sources failed');
   }
 
-  function generateDailyHistory(currentTotal, days) {
-    const history = [];
-    let cumulative = Math.max(0, currentTotal - days);
-    for (let i = 0; i < days; i++) {
-      const dailySolved = Math.max(0, Math.round(Math.random() * 3) + (i === days - 1 ? 1 : 0));
-      cumulative = Math.min(currentTotal, cumulative + dailySolved);
-      history.push(cumulative);
+  async function fetchCodolioData() {
+    const response = await fetchJson('https://api.codolio.com/user/details?userKey=Nitn111');
+    const profile = response?.data;
+    const cardDetails = profile?.codolioCardDetails;
+    const developmentActivity = normalizeActivityCalendar(profile?.githubProfileDetails?.developmentActivity);
+
+    if (response?.status?.success !== true || !cardDetails || !profile?.profileMap || !developmentActivity) {
+      throw new Error('Codolio response did not include public profile stats');
     }
-    if (currentTotal > 0) history[history.length - 1] = currentTotal;
-    return history;
+
+    const toCount = (value, name) => {
+      const count = Number(value);
+      if (!Number.isInteger(count) || count < 0) {
+        throw new Error(`Codolio returned an invalid ${name}`);
+      }
+      return count;
+    };
+
+    return {
+      total: toCount(cardDetails.totalQuestionsSolved, 'solved total'),
+      activeDays: toCount(cardDetails.totalActiveDays, 'active days'),
+      profileViews: toCount(profile.profileViews, 'profile views'),
+      platforms: Object.keys(profile.profileMap).length,
+      activity: developmentActivity
+    };
+  }
+
+  function normalizeActivityCalendar(calendar) {
+    let entries = calendar;
+    if (typeof entries === 'string') {
+      try {
+        entries = JSON.parse(entries);
+      } catch {
+        return null;
+      }
+    }
+    if (!entries || typeof entries !== 'object' || Array.isArray(entries)) return null;
+
+    const activity = {};
+    for (const [timestamp, rawCount] of Object.entries(entries)) {
+      const seconds = Number(timestamp);
+      const count = Number(rawCount);
+      if (!Number.isSafeInteger(seconds) || seconds <= 0 || !Number.isSafeInteger(count) || count < 0) continue;
+      const date = new Date(seconds * 1000);
+      if (Number.isNaN(date.getTime())) continue;
+      const dateKey = date.toISOString().slice(0, 10);
+      activity[dateKey] = (activity[dateKey] || 0) + count;
+    }
+    return Object.keys(activity).length ? activity : null;
   }
 
   function generateDayLabels(days) {
-    const labels = [];
+    const dates = [];
     const today = new Date();
+    const todayUtc = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
     for (let i = days - 1; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+      const date = new Date(todayUtc - i * 24 * 60 * 60 * 1000);
+      dates.push({
+        key: date.toISOString().slice(0, 10),
+        label: `${date.getUTCMonth() + 1}/${date.getUTCDate()}`
+      });
     }
-    return labels;
+    return dates;
+  }
+
+  function getActivitySeries(activity, dates) {
+    if (!activity) return null;
+    return dates.map(({ key }) => activity[key] || 0);
   }
 
   function drawChart(canvasId, labels, data, color) {
@@ -374,6 +429,14 @@ function initCodingTracker() {
 
     const w = rect.width;
     const h = 180;
+    if (!data || !data.length) {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#64748b';
+      ctx.font = '12px Plus Jakarta Sans';
+      ctx.textAlign = 'center';
+      ctx.fillText('Activity history unavailable', w / 2, h / 2);
+      return;
+    }
     const pad = { top: 20, right: 15, bottom: 30, left: 35 };
     const cw = w - pad.left - pad.right;
     const ch = h - pad.top - pad.bottom;
@@ -461,22 +524,45 @@ function initCodingTracker() {
 
     if (cached) {
       renderData(cached);
-      return;
+      setText(cdUpdatedLabel, 'Refreshing…');
     }
 
-    const [lcData, cdData] = await Promise.allSettled([fetchLeetCodeData(), fetchCodolioData()]);
+    const [lcData, lcActivityData, cdData] = await Promise.allSettled([
+      cached ? Promise.resolve(null) : fetchLeetCodeData(),
+      fetchLeetCodeActivity(),
+      fetchCodolioData()
+    ]);
 
-    const lc = lcData.status === 'fulfilled' ? lcData.value : null;
-    const cd = cdData.status === 'fulfilled' ? cdData.value : null;
+    const lc = cached?.lc || (lcData.status === 'fulfilled' ? lcData.value : null);
+    const lcActivity = lcActivityData.status === 'fulfilled'
+      ? lcActivityData.value
+      : cached?.lc?.activity || null;
+    const cd = cdData.status === 'fulfilled'
+      ? cdData.value
+      : cached?.cd || null;
 
     const combined = {
-      lc: lc || { total: 0, easy: 0, medium: 0, hard: 0 },
-      cd: cd || { total: 0, streak: 0, rating: 0, rank: '--' },
-      timestamp: Date.now()
+      lc: { ...(lc || { total: 0, easy: 0, medium: 0, hard: 0 }), activity: lcActivity },
+      cd: cd || { total: null, activeDays: null, profileViews: null, platforms: null },
+      timestamp: cdData.status === 'fulfilled' ? Date.now() : cached?.timestamp || Date.now()
     };
 
-    saveCachedData(combined);
+    const hasLiveData = Boolean(
+      (lcData.status === 'fulfilled' && lcData.value)
+      || (lcActivityData.status === 'fulfilled' && lcActivityData.value)
+      || (cdData.status === 'fulfilled' && cdData.value)
+    );
+    if (hasLiveData) saveCachedData(combined);
     renderData(combined);
+    if (cdData.status === 'fulfilled') {
+      setText(cdUpdatedLabel, 'Live');
+    } else {
+      console.warn('Unable to load Codolio stats:', cdData.reason);
+      setText(cdUpdatedLabel, cached?.cd ? 'Showing saved stats' : 'Unavailable');
+    }
+    if (lcActivityData.status === 'rejected') {
+      console.warn('Unable to load LeetCode activity history:', lcActivityData.reason);
+    }
   }
 
   function renderData(data) {
@@ -487,10 +573,10 @@ function initCodingTracker() {
     setText(lcEasy, lc.easy || '--');
     setText(lcMedium, lc.medium || '--');
     setText(lcHard, lc.hard || '--');
-    setText(cdTotal, cd.total || '--');
-    setText(cdStreak, cd.streak ? `${cd.streak}d` : '--');
-    setText(cdRating, cd.rating || '--');
-    setText(cdRank, cd.rank || '--');
+    setText(cdTotal, cd?.total ?? '--');
+    setText(cdActiveDays, cd?.activeDays ?? '--');
+    setText(cdProfileViews, cd?.profileViews ?? '--');
+    setText(cdPlatforms, cd?.platforms ?? '--');
 
     const ts = data.timestamp || Date.now();
     const dateStr = new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
@@ -499,10 +585,10 @@ function initCodingTracker() {
     if (lcUpdatedLabel) lcUpdatedLabel.textContent = `Refreshed ${dateStr}`;
     if (cdUpdatedLabel) cdUpdatedLabel.textContent = `Refreshed ${dateStr}`;
 
-    const days = 30;
-    const labels = generateDayLabels(days);
-    const lcHistory = generateDailyHistory(lc.total || 0, days);
-    const cdHistory = generateDailyHistory(cd.total || lc.total || 0, days);
+    const dates = generateDayLabels(30);
+    const labels = dates.map(({ label }) => label);
+    const lcHistory = getActivitySeries(lc.activity, dates);
+    const cdHistory = getActivitySeries(cd?.activity, dates);
 
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     const lcColor = isDark ? '#2dd4bf' : '#14b8a6';
