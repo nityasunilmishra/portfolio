@@ -697,7 +697,10 @@ function initThemeToggle() {
   const themeBtn = document.getElementById('theme-toggle');
   if (!themeBtn) return;
 
-  const currentTheme = localStorage.getItem('nm_portfolio_theme') || 'dark';
+  let currentTheme = 'dark';
+  try {
+    currentTheme = localStorage.getItem('nm_portfolio_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  } catch {}
   document.documentElement.setAttribute('data-theme', currentTheme);
 
   themeBtn.addEventListener('click', () => {
@@ -705,9 +708,9 @@ function initThemeToggle() {
     const newTheme = activeTheme === 'light' ? 'dark' : 'light';
 
     document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('nm_portfolio_theme', newTheme);
+    try { localStorage.setItem('nm_portfolio_theme', newTheme); } catch {}
 
-    showToast(`Switched to ${newTheme} mode`);
+    showToast(`Switched to ${newTheme === 'dark' ? 'Code' : 'Beyond Code'} mode`);
   });
 }
 
