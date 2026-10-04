@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,10 +9,15 @@ const LEETCODE_USERNAME = process.env.LEETCODE_USERNAME || 'nityasunilmishra';
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files (index.html, css, js)
+app.use(express.static(__dirname));
+
+// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ ok: true, service: 'leetcode-stats-proxy' });
 });
 
+// LeetCode Stats Proxy API
 app.get('/api/leetcode', async (req, res) => {
   try {
     const stats = await getLeetCodeSolvedCount(LEETCODE_USERNAME);
@@ -72,25 +78,24 @@ async function getLeetCodeSolvedCount(username) {
   }
 
   const get = (diff) => {
-    const item = stats.find(i => i?.difficulty === diff);
+    const item = stats.find((i) => i?.difficulty === diff);
     const count = Number(item?.count ?? 0);
     return Number.isInteger(count) && count >= 0 ? count : 0;
   };
 
-  const total = get('All');
-
-  if (!Number.isInteger(total) || total < 0) {
-    throw new Error('LeetCode solved total is invalid.');
-  }
-
   return {
-    total,
+    total: get('All'),
     easy: get('Easy'),
     medium: get('Medium'),
     hard: get('Hard')
   };
 }
 
+// Fallback to send index.html for any root requests
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`LeetCode stats proxy running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
