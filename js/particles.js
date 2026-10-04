@@ -9,8 +9,7 @@
   let animationFrameId;
   const pointer = { x: 0, y: 0, active: false };
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const palette = ['#8b5cf6', '#0ea5e9', '#f59e0b', '#ec4899', '#2dd4bf'];
-  const links = [];
+  const palette = ['#8b5cf6', '#0ea5e9', '#f59e0b', '#ec4899'];
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -58,30 +57,6 @@
       ctx.globalAlpha = alpha;
       ctx.fill();
     });
-
-    for (let i = 0; i < stars.length; i += 1) {
-      for (let j = i + 1; j < stars.length; j += 1) {
-        const dx = stars[i].x - stars[j].x;
-        const dy = stars[i].y - stars[j].y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 105) {
-          ctx.beginPath();
-          ctx.moveTo(stars[i].x, stars[i].y);
-          ctx.lineTo(stars[j].x, stars[j].y);
-          ctx.strokeStyle = isLight ? '#64748b' : '#8b5cf6';
-          ctx.globalAlpha = (1 - distance / 105) * (isLight ? 0.08 : 0.16);
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-    const nebula = ctx.createRadialGradient(width * 0.62, height * 0.44, 0, width * 0.62, height * 0.44, Math.min(width, height) * 0.5);
-    nebula.addColorStop(0, isLight ? 'rgba(139, 92, 246, 0.07)' : 'rgba(139, 92, 246, 0.12)');
-    nebula.addColorStop(1, 'rgba(139, 92, 246, 0)');
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = nebula;
-    ctx.fillRect(0, 0, width, height);
 
     ctx.globalAlpha = 1;
     if (!prefersReducedMotion) animationFrameId = requestAnimationFrame(draw);
